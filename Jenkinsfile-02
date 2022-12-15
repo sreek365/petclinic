@@ -24,7 +24,7 @@ pipeline {
      failure {
          notify('Failed','#FF0000')
   }
-  }
+   }
   }
 def notify(status,colour) {
     slackSend channel: 'jenkins', color: "${colour}", message: "Build ${status} - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'sreek365'
