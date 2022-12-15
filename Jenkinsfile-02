@@ -1,9 +1,5 @@
-def notify (statuss) {
-    slackSend channel: 'jenkins', color: '#00FF00', message: "Build $(status) - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'sreek365'
-}
 pipeline {
   agent any
-
   tools {
     jdk 'JAVA_HOME'
     maven 'maven_local'
@@ -11,12 +7,12 @@ pipeline {
   stages{
     stage('Started Notification'){
       steps {
-      notify ('Started')
+      notify ('Started','#00FF00')
        }
        }
     stage('clone'){
       steps {
-         git 'https://github.com/sreek365/petclinic.git'
+          git branch: 'main', url: 'https://github.com/sreek365/petclinic.git'
       }
       }
     stage('maven build') {
@@ -38,11 +34,17 @@ pipeline {
   }
   post  {
      success {
-          notify ('success')
+          notify('Success','#00FF00')
      }
      failure {
-         notify('Failed',)
+         notify('Failed','#FF0000')
   }
   }
+  }
+def notify(status,colour) {
+    slackSend channel: 'jenkins', color: "${colour}", message: "Build ${status} - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)", teamDomain: 'sreek365'
+    emailext body: "Build ${status}", subject: "Job \'${JOB_NAME}\' (${BUILD_NUMBER}) Build Status", to: 'sreek945@gmail.com'
+    
+}
   
-  }
+  
