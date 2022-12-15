@@ -15,11 +15,7 @@ pipeline {
           git branch: 'main', url: 'https://github.com/sreek365/petclinic.git'
       }
       }
-    stage('maven build') {
-      steps {
-         sh 'mvn clean package'
-      }
-    }
+   
      stage('Junit'){
         steps {
           junit 'target/surefire-reports/*.xml'
