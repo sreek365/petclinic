@@ -16,16 +16,7 @@ pipeline {
       }
       }
    
-     stage('Junit'){
-        steps {
-          junit 'target/surefire-reports/*.xml'
-        }
-     }
-     stage('Archive') {
-        steps {
-        archiveArtifacts 'target/*.?ar'
-        }
-     }
+    
      
   }
   post  {
