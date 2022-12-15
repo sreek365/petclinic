@@ -1,0 +1,40 @@
+def notify(status,colour){
+	slackSend channel: 'devops-03', color: "${colour}", message: "build ${status}", teamDomain: 'Aug-DevOps'
+}
+
+pipeline{
+agent any
+ tools {
+   jdk 'java_1.8'
+   maven 'mvn_3.8.6'
+ }
+ stages{
+   stage('code checkout') {
+     steps{
+     notify('started','#00FF00')
+      git 'https://github.com/rajesh0335/petclinic.git'
+      }
+  }
+  stage('build') {
+    steps{
+      sh 'mvn clean install'
+     }
+ }
+ stage('archive') {
+   steps{
+     archiveArtifacts artifacts: 'target/*.?ar', followSymlinks: false
+     junit 'target/surefire-reports/*.xml'
+    }
+}
+
+
+ }
+post  {
+   success {
+    notify('started','#00FF00')
+    }
+    failure {
+      notify('failed','#FF0000')
+    }
+}
+}
