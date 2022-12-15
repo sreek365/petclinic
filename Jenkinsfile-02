@@ -12,7 +12,7 @@ agent any
    stage('code checkout') {
      steps{
      notify('started','#00FF00')
-      git 'https://github.com/rajesh0335/petclinic.git'
+      git branch: 'main', url: 'https://github.com/sreek365/petclinic.git'
       }
   }
   stage('build') {
